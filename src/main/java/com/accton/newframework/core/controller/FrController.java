@@ -29,7 +29,7 @@ public class FrController {
 
     @PostMapping("/FrGet")
     public FrResponse FrGet(@RequestBody @Valid FrFrontEnd value){
-        //test2
+        //test3
         frLogService.initialLog();
         try {
             frService.getResponse(value.getType());
