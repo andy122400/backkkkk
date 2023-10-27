@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.accton.newframework.core.model.FrFrontEnd;
@@ -12,9 +11,6 @@ import com.accton.newframework.core.model.FrResponse;
 
 @Component
 public class FrServiceImpl implements FrService {
-
-    @Autowired
-    FrResponse frResponse;
 
     
     /**
@@ -24,6 +20,7 @@ public class FrServiceImpl implements FrService {
      */
     @Override
     public FrResponse getResponse(String type) throws Exception {
+        FrResponse frResponse = new FrResponse();
         if (type.equals("default")) {
             
             List<FrFrontEnd> get_data_list = new ArrayList<>();
@@ -203,7 +200,8 @@ public class FrServiceImpl implements FrService {
         tmp_data.setValue(status);
         
         get_data_list.addAll(getResponse("default").getPosts());
-        
+                
+        FrResponse frResponse = new FrResponse();
         frResponse.setPosts(get_data_list);
         if (status.equals("100.Complete123")) {
             frResponse.setFr_status(true);

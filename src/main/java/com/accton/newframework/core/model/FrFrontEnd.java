@@ -2,13 +2,12 @@ package com.accton.newframework.core.model;
 
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.stereotype.Component;
-
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Component
 @Getter @Setter
+@ToString
 public class FrFrontEnd {
     private String id;
     private String name;
