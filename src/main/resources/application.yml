@@ -1,0 +1,9 @@
+
+spring:
+  banner:
+    location: classpath:banner/banner.txt
+  application:
+    name: Accton App
+  jpa:
+    database: mysql
+

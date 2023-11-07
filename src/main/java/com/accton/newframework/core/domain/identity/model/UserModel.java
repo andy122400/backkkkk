@@ -1,0 +1,17 @@
+package com.accton.newframework.core.domain.identity.model;
+
+import lombok.*;
+
+import java.util.Set;
+
+@Setter @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserModel {
+
+    private String userName;
+    private String displayName;
+    private Set<RoleModel> roles;
+
+}
