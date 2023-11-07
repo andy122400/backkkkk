@@ -12,6 +12,7 @@ public class UserModel {
 
     private String userName;
     private String displayName;
+    private String password;
     private Set<RoleModel> roles;
 
 }

@@ -47,7 +47,7 @@ public class UserRepositoryImpl implements UserRepository {
         userDao.save(UserEntity.builder()
                 .userName(user.getUserName())
                 .displayName(user.getDisplayName())
-                .password("123")
+                .password(user.getPassword())
                 .roles(roles)
                 .build());
         return null;
