@@ -13,11 +13,8 @@ spring:
       ddl-auto: none
     database: mysql
     show-sql: true
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
   sql:
     init:
       mode: always
+
 

@@ -1,5 +1,6 @@
 package com.accton.newframework.core.domain.identity;
 
+import com.accton.newframework.core.application.logging.FrLoggable;
 import com.accton.newframework.core.domain.identity.model.RoleModel;
 import com.accton.newframework.core.domain.identity.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @FrLoggable
     @Override
     public UserModel findOneByUserName(String userName) {
         return userRepository.getByUserName(userName);
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
         if (!ObjectUtils.isEmpty(model.getPassword())){
             model.setPassword(passwordEncoder.encode(model.getPassword()));
         }
-        return userRepository.add(model);
+        return userRepository.save(model);
     }
 
     @Override

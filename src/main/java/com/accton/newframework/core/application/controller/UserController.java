@@ -1,5 +1,6 @@
 package com.accton.newframework.core.application.controller;
 
+import com.accton.newframework.core.application.logging.FrLoggable;
 import com.accton.newframework.core.domain.identity.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,14 @@ public class UserController {
         this.userService =userService;
     }
     @GetMapping("/list")
-    public Object get() {
-        return userService.findOneByUserName("marco1");
+    @FrLoggable
+    public Object get() throws Exception {
+       return userService.findOneByUserName("marco1");
     }
+
+    @GetMapping("/list1")
+    public Object get1() throws Exception{
+        throw new Exception("Demo2");
+    }
+
 }

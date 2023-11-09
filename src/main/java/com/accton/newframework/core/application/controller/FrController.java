@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accton.newframework.core.domain.undefine.fr.model.FrFrontEnd;
 import com.accton.newframework.core.domain.undefine.fr.model.FrResponse;
-import com.accton.newframework.core.domain.undefine.log.FrLogService;
+import com.accton.newframework.core.domain.frlog.FrLogService;
 import com.accton.newframework.core.domain.undefine.fr.FrService;
 
 @RestController
@@ -29,15 +29,13 @@ public class FrController {
     @PostMapping("/FrGet")
     public ResponseEntity<FrResponse> FrGet(@RequestBody @Valid FrFrontEnd value){
         
-        frLogService.initialLog();
         FrResponse frResponse = new FrResponse();
         try {
             frResponse = frService.getResponse(value.getType());
         } catch (Exception e) {
-            frLogService.setError(e);
             e.printStackTrace();
         } finally {
-            frLogService.setLog();
+            // TODO save log to db ?
         }
         return ResponseEntity.ok(frResponse);
         // return ResponseEntity.status(HttpStatus.ACCEPTED).header("nn", "123").body(frResponse); //自訂回傳http狀態與Object
@@ -46,15 +44,12 @@ public class FrController {
     @PostMapping("/FrSave")
     public ResponseEntity<FrResponse> FrSave(@RequestBody @NotEmpty(message = "request body must not be null.") Map<String, Object> value){
 
-        frLogService.initialLog();
         FrResponse frResponse = new FrResponse();
         try {
             // frResponse = frService.setSaveValue(value);
         } catch (Exception e) {
-            frLogService.setError(e);
             e.printStackTrace();
         } finally {
-            frLogService.setLog();
         }
 
         return ResponseEntity.ok(frResponse);
@@ -63,15 +58,12 @@ public class FrController {
     @PostMapping("/FrLogin")
     public ResponseEntity<FrResponse> FrLogin(@RequestBody @NotEmpty(message = "request body must not be null.") Map<String, Object> value){
 
-        frLogService.initialLog();
         FrResponse frResponse = new FrResponse();
         try {
             System.out.println(value.size());
         } catch (Exception e) {
-            frLogService.setError(e);
             e.printStackTrace();
         } finally {
-            frLogService.setLog();
         }
         
         return ResponseEntity.ok(frResponse);
