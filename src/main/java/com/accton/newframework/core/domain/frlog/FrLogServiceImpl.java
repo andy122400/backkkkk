@@ -23,7 +23,7 @@ public class FrLogServiceImpl implements FrLogService {
     public void initialLog(FrLogModel frLog) {
         clearLog(frLog);
         Date currentDate = new Date();
-		frLog.setDtStart(currentDate);
+		frLog.setStartDate(currentDate);
 
 		String unid = UUID.randomUUID().toString();
 		frLog.setUnId(unid);
@@ -44,7 +44,7 @@ public class FrLogServiceImpl implements FrLogService {
 
     @Override
     public void setLog(FrLogModel frLog) {
-        frLog.setDtEnd(new Date());
+        frLog.setEndDate(new Date());
         System.out.println("Set Log....");
     }
 

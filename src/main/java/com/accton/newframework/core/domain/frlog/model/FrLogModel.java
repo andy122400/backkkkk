@@ -34,11 +34,11 @@ public class FrLogModel {
     @JsonProperty("msg_type")
     private String msgType = "S";
 
-    @JsonProperty("dt_start")
-    private Date dtStart;
+    @JsonProperty("start_date")
+    private Date startDate;
 
-    @JsonProperty("dt_end")
-    private Date dtEnd;
+    @JsonProperty("end_date")
+    private Date endDate;
 
     @JsonProperty("login_person_uid")
     private Integer loginPersonUid;
@@ -58,8 +58,8 @@ public class FrLogModel {
     public void resetData(){
         this.setCreateBy(null);
         this.setDetailMsg(null);
-        this.setDtEnd(null);
-        this.setDtStart(null);
+        this.setStartDate(null);
+        this.setEndDate(null);
         this.setErrorMsg(null);
         this.setLoginPersonUid(null);
         this.setLoginUserLogon(null);
