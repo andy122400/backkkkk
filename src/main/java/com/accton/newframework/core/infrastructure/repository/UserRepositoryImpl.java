@@ -27,7 +27,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public UserModel add(UserModel user) {
+    public UserModel save(UserModel user) {
         user.setUserName(user.getUserName());
         Set<RoleEntity> roles;
 
