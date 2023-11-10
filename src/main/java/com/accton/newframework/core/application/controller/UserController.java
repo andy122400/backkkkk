@@ -20,7 +20,7 @@ public class UserController {
     @GetMapping("/list")
     @FrLoggable
     public Object get() throws Exception {
-       return userService.findOneByUserName("marco1");
+       return "";
     }
 
     @GetMapping("/list1")

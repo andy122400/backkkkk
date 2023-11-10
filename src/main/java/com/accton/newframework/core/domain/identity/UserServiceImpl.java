@@ -18,20 +18,28 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder){
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @FrLoggable
     @Override
-    public UserModel findOneByUserName(String userName) {
-        return userRepository.getByUserName(userName);
+    public UserModel findUserByUserNamePassword(String userName, String password, boolean isAdUser) {
+        if (isAdUser) {
+            return userRepository.loginADServer(userName, password);
+        } else {
+            UserModel userModel=  userRepository.loginInAgileDb(userName, password);
+            if (passwordEncoder.matches(password,userModel.getPassword())){
+                return userModel;
+            }
+            return null;
+        }
     }
 
     @Override
     public UserModel addUser(UserModel model) {
-        if (!ObjectUtils.isEmpty(model.getPassword())){
+        if (!ObjectUtils.isEmpty(model.getPassword())) {
             model.setPassword(passwordEncoder.encode(model.getPassword()));
         }
         return userRepository.save(model);
