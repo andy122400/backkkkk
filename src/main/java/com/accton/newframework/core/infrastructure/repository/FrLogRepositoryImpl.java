@@ -7,6 +7,9 @@ import com.accton.newframework.core.infrastructure.entities.FrLogEntity;
 import com.accton.newframework.core.infrastructure.mapper.FrLogMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class FrLogRepositoryImpl implements FrLogRepository {
 
@@ -22,6 +25,11 @@ public class FrLogRepositoryImpl implements FrLogRepository {
         entity = frLogDao.save(entity);
         model.setId(entity.getId());
         return model;
+    }
+
+    @Override
+    public void saveAll(List<FrLogModel> models) {
+        frLogDao.saveAll(models.stream().map(FrLogMapper::fromModel).collect(Collectors.toList()));
     }
 
     @Override

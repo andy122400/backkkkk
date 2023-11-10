@@ -6,4 +6,6 @@ spring:
     name: Accton App
   jpa:
     database: mysql
+    hibernate:
+      ddl-auto: none
 
