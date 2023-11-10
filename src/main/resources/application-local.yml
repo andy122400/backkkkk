@@ -17,4 +17,8 @@ spring:
     init:
       mode: always
 
-
+  ldap:
+    urls: ldap://ldap.accton.com.vn:389
+    base: OU=acctonvn,DC=acctonvn,DC=local
+    username: vn_agile_admin
+    password: 5k$ZzHKrA#QE

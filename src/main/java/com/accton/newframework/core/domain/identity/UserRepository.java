@@ -9,8 +9,10 @@ import java.util.Set;
 public interface UserRepository extends IRepository<UserModel,Long> {
 
     void update(UserModel user);
-    UserModel getByUserName(String userName);
+    UserModel loginInAgileDb(String userName,String password);
 
     void addRoles(Set<RoleModel> roles);
+
+    UserModel loginADServer(String userName,String password);
 
 }
