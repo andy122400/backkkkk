@@ -2,6 +2,7 @@ package com.accton.newframework.core.application.logging;
 
 import com.accton.newframework.core.domain.frlog.FrLogService;
 import com.accton.newframework.core.domain.frlog.model.FrLogModel;
+import com.accton.newframework.utility.ApiException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +41,8 @@ public class LoggingAspect {
 
     @Around("applicationControllerPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        if (isFuncOfController(joinPoint)){
+        Exception exception = null;
+        if (isFuncOfController(joinPoint)) {
             initLog();
         }
         Object result = null;
@@ -52,29 +54,38 @@ public class LoggingAspect {
         } catch (Exception e) {
             //Check the type of Annotation , Exception at here
             frLogService.setError(frLogModel, e);
+            exception = e;
         } finally {
             frLogService.setLog(frLogModel);
             addLog(frLogModel);
-            if (isFuncOfController(joinPoint)){
+            if (isFuncOfController(joinPoint)) {
                 saveToDB();
             }
+        }
+        if (exception != null) {
+            if (isFuncOfController(joinPoint)) {
+                throw new ApiException(exception.toString());
+            }
+            throw exception;
         }
         return result;
     }
 
-    private boolean isFuncOfController(ProceedingJoinPoint joinPoint){
+    private boolean isFuncOfController(ProceedingJoinPoint joinPoint) {
         return joinPoint.getSignature().getDeclaringTypeName().startsWith("com.accton.newframework.core.application.controller");
     }
 
-    private void addLog(FrLogModel logModel){
+    private void addLog(FrLogModel logModel) {
         try {
-            List<FrLogModel> logs = objectMapper.readValue(MDC.get("log_data"), new TypeReference<List<FrLogModel>>() {});
+            List<FrLogModel> logs = objectMapper.readValue(MDC.get("log_data"), new TypeReference<List<FrLogModel>>() {
+            });
             logs.add(logModel);
             MDC.put("log_data", objectMapper.writeValueAsString(logs));
         } catch (JsonProcessingException e) {
             System.out.println(e);
         }
     }
+
     private void initLog() {
         try {
             String unid = UUID.randomUUID().toString();
@@ -87,7 +98,8 @@ public class LoggingAspect {
 
     private void saveToDB() {
         try {
-            List<FrLogModel> logs = objectMapper.readValue(MDC.get("log_data"), new TypeReference<List<FrLogModel>>() {});
+            List<FrLogModel> logs = objectMapper.readValue(MDC.get("log_data"), new TypeReference<List<FrLogModel>>() {
+            });
             frLogService.saveLogs(logs);
             MDC.clear();
         } catch (Exception e) {
