@@ -4,6 +4,7 @@ import com.accton.newframework.core.domain.frlog.model.FrLogModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -53,6 +54,12 @@ public class FrLogServiceImpl implements FrLogService {
         //TODO define queue at here
         frLogRepository.save(frLog);
         System.out.println("saveLog....");
+    }
+
+    @Override
+    public void saveLogs(List<FrLogModel> frLog) {
+        frLogRepository.saveAll(frLog);
+        System.out.println("save all log....");
     }
 
     /**

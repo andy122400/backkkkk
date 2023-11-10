@@ -54,6 +54,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void saveAll(List<UserModel> models) {
+    }
+
+    @Override
     public UserModel getById(Long id) {
         return null;
     }
