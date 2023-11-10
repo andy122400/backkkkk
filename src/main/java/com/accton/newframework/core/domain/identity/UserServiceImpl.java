@@ -29,7 +29,11 @@ public class UserServiceImpl implements UserService {
         if (isAdUser) {
             return userRepository.loginADServer(userName, password);
         } else {
-            return userRepository.loginInAgileDb(userName, password);
+            UserModel userModel=  userRepository.loginInAgileDb(userName, password);
+            if (passwordEncoder.matches(password,userModel.getPassword())){
+                return userModel;
+            }
+            return null;
         }
     }
 

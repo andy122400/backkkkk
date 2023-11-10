@@ -91,6 +91,7 @@ public class UserRepositoryImpl implements UserRepository {
                         UserModel.builder()
                                 .userName(userEntity.getUserName())
                                 .displayName(userEntity.getDisplayName())
+                                .password(userEntity.getPassword())
                                 .roles(userEntity.getRoles().stream().map(roleEntity ->
                                                 new RoleModel(roleEntity.getCode(),
                                                         roleEntity.getDescription()))
