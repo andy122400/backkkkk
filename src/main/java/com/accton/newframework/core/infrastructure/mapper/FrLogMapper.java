@@ -2,10 +2,12 @@ package com.accton.newframework.core.infrastructure.mapper;
 
 import com.accton.newframework.core.domain.frlog.model.FrLogModel;
 import com.accton.newframework.core.infrastructure.entities.FrLogEntity;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class FrLogMapper {
 
-    public static FrLogEntity fromModel(FrLogModel model){
+    public static FrLogEntity toDbModel(FrLogModel model){
         return FrLogEntity.builder()
                 .unid(model.getUnId())
                 .objectName(model.getObjectName())

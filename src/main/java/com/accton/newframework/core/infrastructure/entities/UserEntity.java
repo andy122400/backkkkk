@@ -29,9 +29,6 @@ public class UserEntity extends AbstractAuditingEntity {
     @Column(name = "password", length = 60)
     private String password;
 
-    @Column(name = "ms_identity_id", length = 100)
-    private String msIdentityId;
-
     @ManyToMany
     @JoinTable(
             name = "user_role",

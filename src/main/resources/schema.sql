@@ -25,7 +25,6 @@ create table users
     update_by      varchar(50)        null,
     update_date    datetime(3)        null,
     display_name   varchar(100)       null,
-    ms_identity_id varchar(100)       null,
     password       varchar(60)        null,
     user_name      varchar(50)        null,
     constraint UK_k8d0f2n7n88w1a16yhua64onx
