@@ -8,11 +8,14 @@ import com.accton.newframework.core.infrastructure.dao.RoleDao;
 import com.accton.newframework.core.infrastructure.dao.UserDao;
 import com.accton.newframework.core.infrastructure.entities.RoleEntity;
 import com.accton.newframework.core.infrastructure.entities.UserEntity;
-import com.accton.newframework.utility.RoleConstant;
+import com.accton.newframework.utility.contants.RoleConstant;
+import com.accton.newframework.utility.contants.CompanyEnum;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -28,14 +31,22 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final UserDao userDao;
     private final RoleDao roleDao;
-    private final LdapTemplate ldapTemplate;
+    private final LdapTemplate vnLdapTemplate;
+    private final LdapTemplate jtLdapTemplate;
+    private final LdapTemplate acLdapTemplate;
 
     public UserRepositoryImpl(UserDao userDao,
                               RoleDao roleDao,
-                              LdapTemplate ldapTemplate) {
+                              @Qualifier("VN-LdapTemplate") LdapTemplate vnLdapTemplate,
+                              @Qualifier("JT-LdapTemplate") LdapTemplate jtLdapTemplate,
+                              @Qualifier("AC-LdapTemplate") LdapTemplate acLdapTemplate
+
+    ) {
         this.userDao = userDao;
         this.roleDao = roleDao;
-        this.ldapTemplate = ldapTemplate;
+        this.vnLdapTemplate = vnLdapTemplate;
+        this.jtLdapTemplate = jtLdapTemplate;
+        this.acLdapTemplate = acLdapTemplate;
     }
 
 
@@ -52,12 +63,11 @@ public class UserRepositoryImpl implements UserRepository {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .collect(Collectors.toSet());
-        }
-        else {
+        } else {
             roles = new HashSet<>();
-            Set<RoleModel> roleModels = new HashSet<>() ;
+            Set<RoleModel> roleModels = new HashSet<>();
             roleDao.findRoleEntitiesByCode(RoleConstant.USER_ROLE).ifPresent(roleEntity -> {
-                roleModels.add(new RoleModel(roleEntity.getCode(),roleEntity.getDescription()));
+                roleModels.add(new RoleModel(roleEntity.getCode(), roleEntity.getDescription()));
                 roles.add(roleEntity);
             });
             user.setRoles(roleModels);
@@ -89,7 +99,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public UserModel loginInAgileDb(String userName, String password) {
+    public UserModel getAccountInDbByUserName(String userName) {
         Optional<UserEntity> entity = userDao.findOneWithRolesByUserName(userName);
         return entity.map(userEntity ->
                         UserModel.builder()
@@ -116,11 +126,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
 
-
     @Override
     @FrLoggable
-    public UserModel loginADServer(String userName, String password) {
-        List<UserModel> list = ldapTemplate.search(
+    public UserModel getAccountFromADServerByUserName(String userName, CompanyEnum company) {
+        LdapTemplate template = getLdapTemplate(company);
+        if (ObjectUtils.isEmpty(template)) {
+            return null;
+        }
+        List<UserModel> list = template.search(
                 query().where("objectclass").is("person").and("sn").is(userName), new AttributesMapper<UserModel>() {
                     @Override
                     public UserModel mapFromAttributes(Attributes attrs) throws NamingException {
@@ -131,19 +144,31 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 });
         if (list.size() == 1) {
-            UserModel userModel = list.get(0);
-            boolean isValid = authenticate(userModel.getDisplayName(), password);
-            if (isValid){
-                return save(userModel);
-            }
+            return list.get(0);
         }
         return null;
     }
 
-    public boolean authenticate(String userDn, String credentials) {
+    private LdapTemplate getLdapTemplate(CompanyEnum company){
+        switch (company) {
+            case ATVN:
+                return vnLdapTemplate;
+            case JOY_TECH:
+                return jtLdapTemplate;
+            case ACCTON:
+                return acLdapTemplate;
+        }
+        return null;
+    }
+
+    public boolean authenticateWithPassword(String userDn, String credentials, CompanyEnum company) {
+        LdapTemplate template = getLdapTemplate(company);
+        if (ObjectUtils.isEmpty(template)) {
+            return false;
+        }
         DirContext ctx = null;
         try {
-            ctx = ldapTemplate.getContextSource().getContext(userDn, credentials);
+            ctx = template.getContextSource().getContext(userDn, credentials);
             return true;
         } catch (Exception e) {
             // Context creation failed - authentication did not succeed

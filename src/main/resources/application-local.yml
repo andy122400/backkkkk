@@ -25,3 +25,26 @@ spring:
     base: OU=acctonvn,DC=acctonvn,DC=local
     username: vn_agile_admin
     password: 5k$ZzHKrA#QE
+
+ldap-config:
+  vn:
+    urls: ldap://ldap.accton.com.vn:389
+    base: OU=acctonvn,DC=acctonvn,DC=local
+    username: vn_agile_admin
+    password: 5k$ZzHKrA#QE
+
+  jt:
+    urls: ldap://ldap.accton.com.vn:389
+    base: OU=acctonvn,DC=acctonvn,DC=local
+    username: vn_agile_admin
+    password: 5k$ZzHKrA#QE
+
+  ac:
+    urls: ldap://hqldap.accton.com:389
+    base: OU=acctonvn,DC=acctonvn,DC=local
+    username: agile_admin
+    password: Raise$alary@ccton202311
+
+jwt:
+  secret: heladslkasdaskdlasdjldasldaslkdasdlaskdalkdjlkasjldkjaslk
+  expiration: 1

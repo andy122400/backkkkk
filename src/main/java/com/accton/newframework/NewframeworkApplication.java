@@ -1,9 +1,9 @@
 package com.accton.newframework;
 
-import com.accton.newframework.core.domain.identity.UserService;
+import com.accton.newframework.core.domain.identity.service.UserService;
 import com.accton.newframework.core.domain.identity.model.RoleModel;
 import com.accton.newframework.core.domain.identity.model.UserModel;
-import com.accton.newframework.utility.RoleConstant;
+import com.accton.newframework.utility.contants.RoleConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

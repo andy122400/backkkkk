@@ -1,5 +1,6 @@
 package com.accton.newframework.core.application.config;
 
+import com.accton.newframework.core.application.common.CommonResult;
 import com.accton.newframework.utility.ApiException;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
@@ -18,7 +19,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = ApiException.class)
     public Object handle(ApiException e) {
-        return e.getMessage();
+        return CommonResult.failed(e.getMessage());
     }
 
     @ResponseBody
@@ -32,7 +33,7 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField()+fieldError.getDefaultMessage();
             }
         }
-        return message;
+        return CommonResult.failed(message);
     }
 
     @ResponseBody
@@ -46,7 +47,7 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField()+fieldError.getDefaultMessage();
             }
         }
-        return message;
+        return CommonResult.failed(message);
     }
 
     @ResponseBody
@@ -56,6 +57,6 @@ public class GlobalExceptionHandler {
         if (ObjectUtils.isEmpty(message) && message.contains("denied")) {
             message = "handleSQLSyntaxErrorException!";
         }
-        return message;
+        return CommonResult.failed(message);
     }
 }

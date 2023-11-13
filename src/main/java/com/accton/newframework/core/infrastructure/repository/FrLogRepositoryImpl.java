@@ -21,7 +21,7 @@ public class FrLogRepositoryImpl implements FrLogRepository {
 
     @Override
     public FrLogModel save(FrLogModel model) {
-        FrLogEntity entity = FrLogMapper.fromModel(model);
+        FrLogEntity entity = FrLogMapper.toDbModel(model);
         entity = frLogDao.save(entity);
         model.setId(entity.getId());
         return model;
@@ -29,7 +29,7 @@ public class FrLogRepositoryImpl implements FrLogRepository {
 
     @Override
     public void saveAll(List<FrLogModel> models) {
-        frLogDao.saveAll(models.stream().map(FrLogMapper::fromModel).collect(Collectors.toList()));
+        frLogDao.saveAll(models.stream().map(FrLogMapper::toDbModel).collect(Collectors.toList()));
     }
 
     @Override

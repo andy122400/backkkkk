@@ -1,7 +1,8 @@
 package com.accton.newframework.core.application.controller;
 
+import com.accton.newframework.core.application.common.CommonResult;
 import com.accton.newframework.core.application.logging.FrLoggable;
-import com.accton.newframework.core.domain.identity.UserService;
+import com.accton.newframework.core.domain.identity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class UserController {
     @GetMapping("/list")
     @FrLoggable
     public Object get() throws Exception {
-       return "";
+       return CommonResult.success();
     }
 
     @GetMapping("/list1")

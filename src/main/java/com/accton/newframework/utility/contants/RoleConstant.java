@@ -1,4 +1,4 @@
-package com.accton.newframework.utility;
+package com.accton.newframework.utility.contants;
 
 public class RoleConstant {
 

@@ -1,5 +1,7 @@
 package com.accton.newframework.core.application.dto;
 
+import com.accton.newframework.utility.contants.CompanyEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -20,8 +22,10 @@ public class LoginDto {
     @NotEmpty
     private String password;
 
-    @JsonProperty("is_login_ad")
+
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     @NotNull
-    private Boolean isLoginAd;
+    @JsonProperty("company")
+    private CompanyEnum company;
 
 }
