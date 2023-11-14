@@ -52,7 +52,7 @@ public class LoggingAspect {
         Object result = null;
         FrLogModel frLogModel = new FrLogModel();
         frLogService.initialLog(frLogModel);
-        frLogModel.setObjectName(joinPoint.getSignature().getName());
+        frLogModel.setObjectName(joinPoint.getSignature().getDeclaringTypeName());
         try {
             result = joinPoint.proceed(); // like UserController.get() .
         } catch (Exception e) {

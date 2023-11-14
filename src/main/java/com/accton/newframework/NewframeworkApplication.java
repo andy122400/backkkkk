@@ -9,8 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class NewframeworkApplication implements CommandLineRunner {
@@ -36,5 +38,11 @@ public class NewframeworkApplication implements CommandLineRunner {
                          .password("Accton123")
                          .build()
          );
+    }
+
+    @PostConstruct
+    void started() {
+        // set JVM timezone as GMT
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
     }
 }
