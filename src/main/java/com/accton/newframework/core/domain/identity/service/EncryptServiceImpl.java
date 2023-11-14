@@ -33,7 +33,7 @@ public class EncryptServiceImpl implements EncryptService {
     @Override
     public String generateAccessToken(Long userId, String userName, String roles) {
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.expiration * 3600 * 1000);
+        Date validity = new Date(now + 180* 1000);
         return Jwts.builder()
                 .setSubject(userName)
                 .setId(String.valueOf(userId))

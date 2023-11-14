@@ -65,4 +65,41 @@ create table fr_log
     unid        varchar(50)                   not null,
     user_logon  varchar(50)                   not null
 );
+DROP TABLE IF EXISTS fr_list_detail;
+DROP TABLE IF EXISTS fr_list;
 
+
+create table fr_list
+(
+    fr_list_id  bigint auto_increment
+        primary key,
+    create_by   varchar(50)        null,
+    create_date datetime(3)        null,
+    state_void  smallint default 0 not null,
+    update_by   varchar(50)        null,
+    update_date datetime(3)        null,
+    category    varchar(250)       not null,
+    description varchar(4000)      not null,
+    name        varchar(250)       not null,
+    status      smallint default 0 not null
+);
+
+create table fr_list_detail
+(
+    fr_list_detail_id bigint auto_increment
+        primary key,
+    create_by         varchar(50)        null,
+    create_date       datetime(3)        null,
+    state_void        smallint default 0 not null,
+    update_by         varchar(50)        null,
+    update_date       datetime(3)        null,
+    description       varchar(4000)      not null,
+    name              varchar(250)       not null,
+    parent_entry      int                null,
+    parent_id         bigint             not null,
+    sort              int      default 0 not null,
+    status            smallint default 0 not null,
+    value             varchar(250)       not null,
+    constraint FK2v73j0da1maob1txx5nvyf6ta
+        foreign key (parent_id) references fr_list (fr_list_id)
+);
