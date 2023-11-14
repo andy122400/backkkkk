@@ -61,7 +61,7 @@ create table fr_log
     msg_type    varchar(20)                   not null,
     object_name varchar(250)                  not null,
     person_uid  int                           not null,
-    start_date  datetime(3)          CONVERT_TZ(NOW(), 'UTC', 'GMT')         not null,
+    start_date  datetime(3)                   not null,
     unid        varchar(250)                  not null,
     user_logon  varchar(250)                  not null
 );
