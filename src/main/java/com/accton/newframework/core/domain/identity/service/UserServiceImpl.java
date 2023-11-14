@@ -35,14 +35,17 @@ public class UserServiceImpl implements UserService {
         }
         if (userModel == null || ObjectUtils.isEmpty(userModel.getPassword())){
             userModel= userRepository.getAccountFromADServerByUserName(userName,company );
-            boolean isValid = userRepository.authenticateWithPassword(userModel.getDisplayName(), password,company);
-            if (isValid){
-                return  userRepository.save(userModel);
+            if (userModel!=null){
+                boolean isValid = userRepository.authenticateWithPassword(userModel.getDisplayName(), password,company);
+                if (isValid){
+                    return  userRepository.save(userModel);
+                }
             }
         }
         return null;
     }
 
+    @FrLoggable
     @Override
     public UserModel addUser(UserModel model) {
         if (!ObjectUtils.isEmpty(model.getPassword())) {
@@ -50,6 +53,7 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.save(model);
     }
+
 
     @Override
     public void addRoles(Set<RoleModel> roles) {

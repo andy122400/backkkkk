@@ -11,9 +11,13 @@ import java.util.Optional;
 @UtilityClass
 public class SecurityUtils {
 
-    public static Optional<String> getCurrentUserLogin() {
+    public static Optional<String> getCurrentUserId() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
+    }
+
+    public static String getUserLogon() {
+        return "UNDEFINE";
     }
 
     private static String extractPrincipal(Authentication authentication) {

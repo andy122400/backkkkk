@@ -10,8 +10,12 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +24,10 @@ import java.util.UUID;
 // Spring AOP
 @Aspect
 @Component
+@Order(100)
 public class LoggingAspect {
 
+    private final Logger mLogger = LoggerFactory.getLogger(LoggingAspect.class);
     private final FrLogService frLogService;
     private final ObjectMapper objectMapper;
 
@@ -42,9 +48,7 @@ public class LoggingAspect {
     @Around("applicationControllerPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Exception exception = null;
-        if (isFuncOfController(joinPoint)) {
-            initLog();
-        }
+        initLog(joinPoint);
         Object result = null;
         FrLogModel frLogModel = new FrLogModel();
         frLogService.initialLog(frLogModel);
@@ -58,41 +62,48 @@ public class LoggingAspect {
         } finally {
             frLogService.setLog(frLogModel);
             addLog(frLogModel);
-            if (isFuncOfController(joinPoint)) {
+            if (isFuncRoot(joinPoint)) {
                 saveToDB();
             }
         }
         if (exception != null) {
-            if (isFuncOfController(joinPoint)) {
+            if (isFuncRoot(joinPoint)) {
                 throw new ApiException(exception.toString());
             }
             throw exception;
         }
         return result;
     }
-
-    private boolean isFuncOfController(ProceedingJoinPoint joinPoint) {
-        return joinPoint.getSignature().getDeclaringTypeName().startsWith("com.accton.newframework.core.application.controller");
+    private boolean isFuncRoot(ProceedingJoinPoint joinPoint) {
+        return joinPoint.getSignature().getDeclaringTypeName().equals(MDC.get("function_root"));
     }
 
     private void addLog(FrLogModel logModel) {
         try {
             List<FrLogModel> logs = objectMapper.readValue(MDC.get("log_data"), new TypeReference<List<FrLogModel>>() {
             });
+            logModel.setUnId(getUnId());
             logs.add(logModel);
             MDC.put("log_data", objectMapper.writeValueAsString(logs));
         } catch (JsonProcessingException e) {
-            System.out.println(e);
+            mLogger.error(e.getMessage());
         }
     }
 
-    private void initLog() {
+    private String getUnId() {
+        return MDC.get("logId");
+    }
+
+    private void initLog(ProceedingJoinPoint joinPoint) {
         try {
-            String unid = UUID.randomUUID().toString();
-            MDC.put("logId", unid);
-            MDC.put("log_data", objectMapper.writeValueAsString(new ArrayList<FrLogModel>()));
+            if (ObjectUtils.isEmpty(MDC.get("logId"))){
+                String unid = UUID.randomUUID().toString();
+                MDC.put("logId", unid);
+                MDC.put("function_root", joinPoint.getSignature().getDeclaringTypeName());
+                MDC.put("log_data", objectMapper.writeValueAsString(new ArrayList<FrLogModel>()));
+            }
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
+            mLogger.error(e.getMessage());
         }
     }
 
@@ -103,7 +114,7 @@ public class LoggingAspect {
             frLogService.saveLogs(logs);
             MDC.clear();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            mLogger.error(e.getMessage());
         }
     }
 }

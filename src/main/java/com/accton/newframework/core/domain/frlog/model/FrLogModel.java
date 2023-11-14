@@ -14,8 +14,6 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FrLogModel {
 
-    private Long id;
-
     @JsonProperty("unid")
     private String unId ;
 
@@ -46,17 +44,13 @@ public class FrLogModel {
     @JsonProperty("login_user_logon")
     private String loginUserLogon;
 
-    @JsonProperty("create_by")
-    private String createBy;
-
-    @JsonProperty("server_ip")
-    private String serverIp;
+    @JsonProperty("client_ip")
+    private String clientIp;
 
     @JsonProperty("host_name")
     private String hostName;
 
     public void resetData(){
-        this.setCreateBy(null);
         this.setDetailMsg(null);
         this.setStartDate(null);
         this.setEndDate(null);
@@ -67,7 +61,7 @@ public class FrLogModel {
         this.setMsgType(null);
         this.setObjectName(null);
         this.setUnId(null);
-        this.setServerIp(null);
+        this.setClientIp(null);
         this.setHostName(null);
     }
 

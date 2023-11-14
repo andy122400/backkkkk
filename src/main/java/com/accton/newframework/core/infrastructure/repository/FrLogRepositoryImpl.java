@@ -22,8 +22,7 @@ public class FrLogRepositoryImpl implements FrLogRepository {
     @Override
     public FrLogModel save(FrLogModel model) {
         FrLogEntity entity = FrLogMapper.toDbModel(model);
-        entity = frLogDao.save(entity);
-        model.setId(entity.getId());
+        frLogDao.save(entity);
         return model;
     }
 

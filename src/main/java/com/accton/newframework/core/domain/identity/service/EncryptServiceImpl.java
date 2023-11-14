@@ -15,6 +15,7 @@ public class EncryptServiceImpl implements EncryptService {
 
     private static final Logger logger = LoggerFactory.getLogger(EncryptService.class);
     private static final String AUTHORITIES_KEY = "auth-role";
+    private static final String USER_ID_KEY = "USER_ID_KEY";
 
     @Value("${jwt.expiration}")
     private Long expiration;
@@ -30,12 +31,14 @@ public class EncryptServiceImpl implements EncryptService {
 
 
     @Override
-    public String generateAccessToken(String userName, String roles) {
+    public String generateAccessToken(Long userId, String userName, String roles) {
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.expiration * 3600 * 1000);
         return Jwts.builder()
                 .setSubject(userName)
+                .setId(String.valueOf(userId))
                 .claim(AUTHORITIES_KEY, roles)
+                .claim(USER_ID_KEY, userId)
                 .setIssuedAt(new Date())
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
@@ -64,6 +67,11 @@ public class EncryptServiceImpl implements EncryptService {
     @Override
     public String getUserNameFromToken(String token) {
         return parseClaims(token).getSubject();
+    }
+
+    @Override
+    public String getUserIdFromToken(String token) {
+        return parseClaims(token).getId();
     }
 
     @Override

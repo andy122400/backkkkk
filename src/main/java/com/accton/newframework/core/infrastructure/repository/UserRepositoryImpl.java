@@ -8,6 +8,7 @@ import com.accton.newframework.core.infrastructure.dao.RoleDao;
 import com.accton.newframework.core.infrastructure.dao.UserDao;
 import com.accton.newframework.core.infrastructure.entities.RoleEntity;
 import com.accton.newframework.core.infrastructure.entities.UserEntity;
+import com.accton.newframework.core.infrastructure.mapper.UserMapper;
 import com.accton.newframework.utility.contants.RoleConstant;
 import com.accton.newframework.utility.contants.CompanyEnum;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,13 +81,15 @@ public class UserRepositoryImpl implements UserRepository {
                 .build();
         Optional<UserEntity> userDb = userDao.findUserEntitiesByUserName(user.getUserName());
         userDb.ifPresent(entity -> userEntity.setId(entity.getId()));
-        userDao.save(userEntity);
+        UserEntity savedUser = userDao.save(userEntity);
+        user.setUserId(savedUser.getId());
         return user;
     }
 
     @Override
     public void saveAll(List<UserModel> models) {
     }
+
 
     @Override
     public UserModel getById(Long id) {
@@ -101,16 +104,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public UserModel getAccountInDbByUserName(String userName) {
         Optional<UserEntity> entity = userDao.findOneWithRolesByUserName(userName);
-        return entity.map(userEntity ->
-                        UserModel.builder()
-                                .userName(userEntity.getUserName())
-                                .displayName(userEntity.getDisplayName())
-                                .password(userEntity.getPassword())
-                                .roles(userEntity.getRoles().stream().map(roleEntity ->
-                                                new RoleModel(roleEntity.getCode(),
-                                                        roleEntity.getDescription()))
-                                        .collect(Collectors.toSet()))
-                                .build())
+        return entity.map(UserMapper::toDomainModel)
                 .orElse(null);
     }
 
@@ -149,7 +143,7 @@ public class UserRepositoryImpl implements UserRepository {
         return null;
     }
 
-    private LdapTemplate getLdapTemplate(CompanyEnum company){
+    private LdapTemplate getLdapTemplate(CompanyEnum company) {
         switch (company) {
             case ATVN:
                 return vnLdapTemplate;

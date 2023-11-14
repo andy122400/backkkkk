@@ -19,7 +19,7 @@ public class FrLogMapper {
                 .endDate(model.getEndDate())
                 .personUid(model.getLoginPersonUid())
                 .userLogon(model.getLoginUserLogon())
-                .serverIp(model.getServerIp())
+                .clientIp(model.getClientIp())
                 .hostName(model.getHostName())
                 .build();
     }

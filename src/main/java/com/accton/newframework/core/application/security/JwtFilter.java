@@ -32,9 +32,9 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtTokenService = jwtTokenService;
     }
 
-    private void setAuthenticationContext(String userName, String authoritiesStr, String token,HttpServletRequest request) {
+    private void setAuthenticationContext(String userId, String authoritiesStr, String token,HttpServletRequest request) {
         Collection<? extends GrantedAuthority> authorities = authoritiesFromStr(authoritiesStr);
-        UserDetails userDetails = new User(userName, "", authorities);
+        UserDetails userDetails = new User(userId, "", authorities);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, token, authorities);
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,9 +63,9 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String userName = jwtTokenService.getUserNameFromToken(token);
+        String userId = jwtTokenService.getUserIdFromToken(token);
         String authoritiesStr = jwtTokenService.getRoles(token);
-        setAuthenticationContext(userName, authoritiesStr, token,request);
+        setAuthenticationContext(userId, authoritiesStr, token,request);
         filterChain.doFilter(request, response);
     }
 }

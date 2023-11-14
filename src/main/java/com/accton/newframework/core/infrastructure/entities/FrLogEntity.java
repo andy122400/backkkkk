@@ -53,8 +53,8 @@ public class FrLogEntity extends AbstractAuditingEntity {
     @Column(name = "user_logon", length = 50,nullable = false)
     private String userLogon;
 
-    @Column(name = "server_ip", length = 50)
-    private String serverIp;
+    @Column(name = "client_ip", length = 50)
+    private String clientIp;
 
     @Column(name = "host_name", length = 50)
     private String hostName;

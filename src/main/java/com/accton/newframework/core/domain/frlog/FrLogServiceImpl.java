@@ -1,11 +1,13 @@
 package com.accton.newframework.core.domain.frlog;
 
 import com.accton.newframework.core.domain.frlog.model.FrLogModel;
+import com.accton.newframework.utility.HttpUtil;
+import com.accton.newframework.utility.SecurityUtils;
+import com.accton.newframework.utility.contants.Constants;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class FrLogServiceImpl implements FrLogService {
@@ -25,20 +27,26 @@ public class FrLogServiceImpl implements FrLogService {
         clearLog(frLog);
         Date currentDate = new Date();
 		frLog.setStartDate(currentDate);
-
-		String unid = UUID.randomUUID().toString();
-		frLog.setUnId(unid);
-        frLog.setHostName("demohost");
-        frLog.setServerIp("demoIP");
-        frLog.setLoginUserLogon("demoUserLogin");
-        frLog.setLoginPersonUid(1);
-        frLog.setMsgType("F");
+        frLog.setHostName(HttpUtil.getHostName());
+        frLog.setClientIp(HttpUtil.getClientIP());
+        frLog.setLoginUserLogon(SecurityUtils.getUserLogon());
+        frLog.setLoginPersonUid(-1);
+        SecurityUtils.getCurrentUserId().ifPresent(s ->{
+            if (s.equals(Constants.ANONYMOUS)){
+                frLog.setLoginPersonUid(-1);
+            }else {
+                frLog.setLoginPersonUid(Integer.parseInt(s));
+            }
+        });
+        frLog.setMsgType("S");
         System.out.println("initialLog....");
     }
     
     @Override
     public void setError(FrLogModel frLog,Exception e) {
-        frLog.setErrorMsg(e.getMessage());
+        frLog.setMsgType("F");
+        frLog.setMsg(e.getMessage());
+        frLog.setErrorMsg(e.toString());
         System.out.println("setError....");
     }
 

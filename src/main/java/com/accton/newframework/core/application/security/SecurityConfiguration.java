@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                 authorizeRequests
                         .antMatchers(
                                 "/api/accounts/login",
+                                "/api/users/list",
                                 "/public/**"
                         )
                         .permitAll()

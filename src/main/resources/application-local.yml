@@ -6,7 +6,7 @@ spring:
   datasource:
     username: root
     password: Accton123@
-    url: jdbc:mysql://localhost:3306/agile_db
+    url: jdbc:mysql://localhost:3306/newframework
 
   jpa:
     hibernate:
