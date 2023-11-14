@@ -3,6 +3,7 @@ package com.accton.newframework.core.domain.frlog;
 import com.accton.newframework.core.domain.frlog.model.FrLogModel;
 import com.accton.newframework.utility.HttpUtil;
 import com.accton.newframework.utility.SecurityUtils;
+import com.accton.newframework.utility.contants.Constants;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -30,7 +31,13 @@ public class FrLogServiceImpl implements FrLogService {
         frLog.setClientIp(HttpUtil.getClientIP());
         frLog.setLoginUserLogon(SecurityUtils.getUserLogon());
         frLog.setLoginPersonUid(-1);
-        SecurityUtils.getCurrentUserId().ifPresent(s -> frLog.setLoginPersonUid(Integer.parseInt(s)));
+        SecurityUtils.getCurrentUserId().ifPresent(s ->{
+            if (s.equals(Constants.ANONYMOUS)){
+                frLog.setLoginPersonUid(-1);
+            }else {
+                frLog.setLoginPersonUid(Integer.parseInt(s));
+            }
+        });
         frLog.setMsgType("S");
         System.out.println("initialLog....");
     }

@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -23,6 +24,7 @@ import java.util.UUID;
 // Spring AOP
 @Aspect
 @Component
+@Order(100)
 public class LoggingAspect {
 
     private final Logger mLogger = LoggerFactory.getLogger(LoggingAspect.class);
