@@ -39,7 +39,9 @@ public class AccountController {
         }
         LoginResponse response = new LoginResponse();
         String roles = userModel.getRoles().stream().map(RoleModel::getCode).collect(Collectors.joining(","));
-        response.setAccessToken(encryptService.generateAccessToken(userModel.getUserName(), roles));
+        response.setAccessToken(
+                encryptService.generateAccessToken(userModel.getUserId(), userModel.getUserName(), roles)
+        );
         response.setUserName(userModel.getUserName());
         response.setDisplayName(userModel.getDisplayName());
         return CommonResult.success(response);

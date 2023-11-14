@@ -60,7 +60,7 @@ create table fr_log
     msg_type    varchar(2) charset utf8mb3    not null,
     object_name varchar(80)                   not null,
     person_uid  int                           not null,
-    server_ip   varchar(50)                   null,
+    client_ip   varchar(50)                   null,
     start_date  datetime(3)                   not null,
     unid        varchar(50)                   not null,
     user_logon  varchar(50)                   not null

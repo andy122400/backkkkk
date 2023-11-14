@@ -10,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserModel {
 
+    private Long userId;
     private String userName;
     private String displayName;
     private String password;
