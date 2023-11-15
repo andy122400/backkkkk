@@ -1,9 +1,15 @@
 package com.accton.newframework.core.infrastructure.repository;
 
 import com.accton.newframework.core.domain.frlist.FrListRepository;
+import com.accton.newframework.core.domain.frlist.event.FrListAdd;
+import com.accton.newframework.core.domain.frlist.event.FrListGet;
 import com.accton.newframework.core.domain.frlist.model.FrListModel;
 import com.accton.newframework.core.infrastructure.dao.FrListDao;
-import com.accton.newframework.core.infrastructure.mapper.FrListMapper;
+import com.accton.newframework.core.infrastructure.entities.FrListEntity;
+import com.accton.newframework.core.infrastructure.mapper.FrListInfrastructureMapper;
+import com.accton.newframework.core.infrastructure.specification.SearchFilter;
+import com.accton.newframework.core.infrastructure.specification.SearchFilterWrapper;
+import com.accton.newframework.core.infrastructure.specification.SpecificationUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,19 +24,73 @@ public class FrListRepositoryImpl implements FrListRepository {
         this.frListDao = frListDao;
     }
 
-    @Override
     public FrListModel save(FrListModel model) {
-        frListDao.save(FrListMapper.toDbModel(model));
+        frListDao.save(FrListInfrastructureMapper.toDbModel(model));
         return model;
     }
 
-    @Override
     public void saveAll(List<FrListModel> models) {
-        frListDao.saveAll(models.stream().map(FrListMapper::toDbModel).collect(Collectors.toList()));
+        frListDao.saveAll(models.stream().map(FrListInfrastructureMapper::toDbModel).collect(Collectors.toList()));
     }
 
     @Override
     public FrListModel getById(Long aLong) {
-        return FrListMapper.toDomainModel(frListDao.findById(aLong).orElse(null));
+        return FrListInfrastructureMapper.toDomainModel(frListDao.findById(aLong).orElse(null));
+    }
+
+    @Override
+    public List<FrListModel> getByFilter(FrListGet filter) {
+        SearchFilterWrapper filterWrapper = new SearchFilterWrapper();
+        SearchFilter.Operator operator = null;
+        boolean isNeedFilter = true;
+
+        switch (filter.getMatchIf()){
+            case STARTS_WITH:
+                operator = SearchFilter.Operator.LIKEL;
+                break;
+            case SHOW_ALL:
+                isNeedFilter = false;
+                break;
+            case CONTAINS:
+                operator = SearchFilter.Operator.LIKE;
+                break;
+            case EQUALS:
+                operator = SearchFilter.Operator.EQ;
+                break;
+            default:
+                break;
+        }
+        if (isNeedFilter){
+            String filedName = null;
+            switch (filter.getFieldType()){
+                case ID:
+                    filedName = "id";
+                    break;
+                case NAME:
+                    filedName = "name";
+                    break;
+                case DESCRIPTION:
+                    filedName = "description";
+                    break;
+                default:
+                    break;
+            }
+            filterWrapper.addFilter(SearchFilter.build(filedName, operator,filter.getContent()));
+            List<FrListEntity> res = SpecificationUtil.query(filterWrapper,frListDao);
+            return res.stream().map(FrListInfrastructureMapper::toDomainModel).collect(Collectors.toList());
+        }
+        return frListDao.findAll().stream().map(FrListInfrastructureMapper::toDomainModel).collect(Collectors.toList());
+    }
+
+    @Override
+    public FrListModel add(FrListAdd add) {
+        FrListEntity entity = FrListEntity.builder()
+                .name(add.getName())
+                .category(add.getCategory())
+                .description(add.getDescription())
+                .status(add.getStatus())
+                .build();
+        entity = frListDao.save(entity);
+        return FrListInfrastructureMapper.toDomainModel(entity);
     }
 }

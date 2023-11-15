@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accton.newframework.core.domain.undefine.fr.model.FrFrontEnd;
 import com.accton.newframework.core.domain.undefine.fr.model.FrResponse;
 import com.accton.newframework.core.domain.frlog.FrLogService;
-import com.accton.newframework.core.domain.undefine.fr.FrService;
+import com.accton.newframework.core.domain.undefine.fr.FrListService;
 
 @RestController
 @Validated
 public class FrController {
     
     @Autowired
-    FrService frService;
+    FrListService frService;
     @Autowired
     FrLogService frLogService;
 

@@ -1,24 +1,34 @@
-package com.accton.newframework.core.application.dto;
+package com.accton.newframework.core.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.Date;
 
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FrListResponse {
+public class FrListDetailResponse {
 
-    @JsonProperty("fr_list_id")
+    @JsonProperty("fr_list_detail_id")
     private Long id;
+
+    @JsonProperty("parent_id")
+    private Long parentId;
 
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("category")
-    private String category;
+    @JsonProperty("value")
+    private String value;
+
+    @JsonProperty("sort")
+    private Integer sort;
+
+    @JsonProperty("parent_entry")
+    private Integer parentEntry;
 
     @JsonProperty("description")
     private String description;
@@ -40,5 +50,4 @@ public class FrListResponse {
 
     @JsonProperty("state_void")
     private Integer stateVoid ;
-
 }

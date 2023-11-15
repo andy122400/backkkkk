@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "fr_list")
@@ -32,10 +32,8 @@ public class FrListEntity extends AbstractAuditingEntity {
     private String description;
 
     @Column(name = "status", columnDefinition = "smallint default 0",nullable = false)
+    @Min(0)
+    @Max(1)
     private Integer status;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private FrListDetailEntity detail;
 
 }

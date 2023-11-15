@@ -9,8 +9,8 @@ import com.accton.newframework.core.infrastructure.dao.UserDao;
 import com.accton.newframework.core.infrastructure.entities.RoleEntity;
 import com.accton.newframework.core.infrastructure.entities.UserEntity;
 import com.accton.newframework.core.infrastructure.mapper.UserMapper;
-import com.accton.newframework.utility.contants.RoleConstant;
 import com.accton.newframework.utility.contants.CompanyEnum;
+import com.accton.newframework.utility.contants.RoleConstant;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
@@ -22,7 +22,10 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
@@ -86,7 +89,6 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    @Override
     public void saveAll(List<UserModel> models) {
     }
 
