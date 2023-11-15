@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 
 @MappedSuperclass
@@ -18,9 +20,9 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractAuditingEntity implements Serializable {
 
-    @CreationTimestamp
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date",updatable = false, columnDefinition = "datetime(3)")
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime(3)")
     protected Date createDate;
 
     @CreatedBy
@@ -39,9 +41,16 @@ public class AbstractAuditingEntity implements Serializable {
 
     @Column(name = "state_void", columnDefinition = "smallint default 0 not null")
     protected Integer stateVoid = 0;
+
     @PrePersist
-    private void setUpdate() {
+    private void setInsert() {
         updateBy = null;
         updateDate = null;
+        createDate = new Date();
+    }
+
+    @PreUpdate
+    private void setUpdate() {
+
     }
 }
