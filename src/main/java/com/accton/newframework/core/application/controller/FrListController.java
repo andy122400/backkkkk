@@ -27,7 +27,7 @@ public class FrListController {
     public CommonResult<List<FrListResponse>> get(@RequestParam("match_if") CriteriaEnum matchIf,
                                                   @RequestParam("field_type")  FieldTypeEnum fieldType,
                                                   @RequestParam("content") String content) {
-        FrListGet event = new FrListGet(matchIf,fieldType,content);
+        FrListGet event = new FrListGet(matchIf,fieldType,content,false);
         return CommonResult.success(frListService.getByFilter(event));
     }
 

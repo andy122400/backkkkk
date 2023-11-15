@@ -13,5 +13,6 @@ public class FrListGet {
     private CriteriaEnum matchIf;
     private FieldTypeEnum fieldType;
     private String content;
+    private boolean isAdmin;
 
 }

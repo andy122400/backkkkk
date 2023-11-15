@@ -76,10 +76,13 @@ public class FrListRepositoryImpl implements FrListRepository {
                     break;
             }
             filterWrapper.addFilter(SearchFilter.build(filedName, operator,filter.getContent()));
-            List<FrListEntity> res = SpecificationUtil.query(filterWrapper,frListDao);
-            return res.stream().map(FrListInfrastructureMapper::toDomainModel).collect(Collectors.toList());
         }
-        return frListDao.findAll().stream().map(FrListInfrastructureMapper::toDomainModel).collect(Collectors.toList());
+        if (!filter.isAdmin()){
+            filterWrapper.addFilter(SearchFilter.build("stateVoid", SearchFilter.Operator.EQ,0));
+            filterWrapper.addFilter(SearchFilter.build("status", SearchFilter.Operator.EQ,1));
+        }
+        List<FrListEntity> res = SpecificationUtil.query(filterWrapper,frListDao);
+        return res.stream().map(FrListInfrastructureMapper::toDomainModel).collect(Collectors.toList());
     }
 
     @Override
