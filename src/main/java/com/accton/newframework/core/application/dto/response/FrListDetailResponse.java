@@ -12,7 +12,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FrListDetailResponse {
 
-    @JsonProperty("fr_list_detail_id")
+    @JsonProperty("id")
     private Long id;
 
     @JsonProperty("parent_id")

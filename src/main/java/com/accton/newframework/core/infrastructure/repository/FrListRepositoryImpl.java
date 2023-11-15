@@ -3,13 +3,16 @@ package com.accton.newframework.core.infrastructure.repository;
 import com.accton.newframework.core.domain.frlist.FrListRepository;
 import com.accton.newframework.core.domain.frlist.event.FrListAdd;
 import com.accton.newframework.core.domain.frlist.event.FrListGet;
+import com.accton.newframework.core.domain.frlist.model.FrListDetailModel;
 import com.accton.newframework.core.domain.frlist.model.FrListModel;
 import com.accton.newframework.core.infrastructure.dao.FrListDao;
+import com.accton.newframework.core.infrastructure.dao.FrListDetailDao;
 import com.accton.newframework.core.infrastructure.entities.FrListEntity;
 import com.accton.newframework.core.infrastructure.mapper.FrListInfrastructureMapper;
 import com.accton.newframework.core.infrastructure.specification.SearchFilter;
 import com.accton.newframework.core.infrastructure.specification.SearchFilterWrapper;
 import com.accton.newframework.core.infrastructure.specification.SpecificationUtil;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +22,12 @@ import java.util.stream.Collectors;
 public class FrListRepositoryImpl implements FrListRepository {
 
     private final FrListDao frListDao;
+    private final FrListDetailDao frListDetailDao;
 
-    public FrListRepositoryImpl(FrListDao frListDao) {
+    public FrListRepositoryImpl(FrListDao frListDao,
+                                FrListDetailDao frListDetailDao) {
         this.frListDao = frListDao;
+        this.frListDetailDao = frListDetailDao;
     }
 
     public FrListModel save(FrListModel model) {
@@ -95,5 +101,12 @@ public class FrListRepositoryImpl implements FrListRepository {
                 .build();
         entity = frListDao.save(entity);
         return FrListInfrastructureMapper.toDomainModel(entity);
+    }
+
+    @Override
+    public List<FrListDetailModel> detail(Long id) {
+        return frListDetailDao.findAllByParentId(id, Sort.by("sort").descending().and(Sort.by("name")))
+                .stream().map(FrListInfrastructureMapper::toDomainModel)
+                .collect(Collectors.toList());
     }
 }

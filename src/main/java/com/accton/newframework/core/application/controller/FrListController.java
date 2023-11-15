@@ -3,6 +3,7 @@ package com.accton.newframework.core.application.controller;
 import com.accton.newframework.core.application.common.CommonResult;
 import com.accton.newframework.core.application.dto.request.FrListAddRequest;
 import com.accton.newframework.core.application.dto.request.FrListGetRequest;
+import com.accton.newframework.core.application.dto.response.FrListDetailResponse;
 import com.accton.newframework.core.application.dto.response.FrListResponse;
 import com.accton.newframework.core.domain.frlist.FrListService;
 import com.accton.newframework.core.domain.frlist.event.FrListAdd;
@@ -33,4 +34,10 @@ public class FrListController {
         FrListAdd event = new FrListAdd(request.getName(),request.getCategory(),request.getDescription(),request.getStatus());
         return CommonResult.success(frListService.add(event));
     }
+
+    @PostMapping("{id}/detail")
+    public CommonResult<List<FrListDetailResponse>> detail(@PathVariable("id") Long id){
+        return CommonResult.success(frListService.detail(id));
+    }
+
 }

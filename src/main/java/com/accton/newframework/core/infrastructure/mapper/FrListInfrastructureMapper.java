@@ -1,6 +1,8 @@
 package com.accton.newframework.core.infrastructure.mapper;
 
+import com.accton.newframework.core.domain.frlist.model.FrListDetailModel;
 import com.accton.newframework.core.domain.frlist.model.FrListModel;
+import com.accton.newframework.core.infrastructure.entities.FrListDetailEntity;
 import com.accton.newframework.core.infrastructure.entities.FrListEntity;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
@@ -19,4 +21,12 @@ public class FrListInfrastructureMapper {
         if (model==null) return null;
         return FrListEntity.builder().build();
     }
+
+    public static FrListDetailModel toDomainModel(FrListDetailEntity entity) {
+        if (entity == null) return null;
+        FrListDetailModel model = new FrListDetailModel();
+        BeanUtils.copyProperties(entity,model);
+        return model;
+    }
+
 }

@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class FrListResponse {
 
-    @JsonProperty("fr_list_id")
+    @JsonProperty("id")
     private Long id;
 
     @JsonProperty("name")

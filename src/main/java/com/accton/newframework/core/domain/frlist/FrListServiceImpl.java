@@ -1,9 +1,11 @@
 package com.accton.newframework.core.domain.frlist;
 
 
+import com.accton.newframework.core.application.dto.response.FrListDetailResponse;
 import com.accton.newframework.core.application.dto.response.FrListResponse;
 import com.accton.newframework.core.domain.frlist.event.FrListAdd;
 import com.accton.newframework.core.domain.frlist.event.FrListGet;
+import com.accton.newframework.core.domain.frlist.model.FrListDetailModel;
 import com.accton.newframework.core.domain.frlist.model.FrListModel;
 import com.accton.newframework.core.domain.mapper.FrListDomainMapper;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class FrListServiceImpl implements FrListService {
     @Override
     public List<FrListResponse> getByFilter(FrListGet filter) {
         List<FrListModel> list = repository.getByFilter(filter);
-        if (list!=null){
+        if (list != null) {
             return list.stream().map(FrListDomainMapper::toDto).collect(Collectors.toList());
         }
         return null;
@@ -32,6 +34,15 @@ public class FrListServiceImpl implements FrListService {
     @Override
     public FrListResponse add(FrListAdd add) {
         return FrListDomainMapper.toDto(repository.add(add));
+    }
+
+    @Override
+    public List<FrListDetailResponse> detail(Long id) {
+        List<FrListDetailModel> list = repository.detail(id);
+        if (list != null) {
+            return list.stream().map(FrListDomainMapper::toDto).collect(Collectors.toList());
+        }
+        return null;
     }
 
 
