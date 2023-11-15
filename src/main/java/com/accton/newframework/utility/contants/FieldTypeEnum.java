@@ -1,5 +1,7 @@
 package com.accton.newframework.utility.contants;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Objects;
 
 public enum FieldTypeEnum {
@@ -14,6 +16,7 @@ public enum FieldTypeEnum {
         this.code = code;
     }
 
+    @JsonCreator
     public static FieldTypeEnum forId(String id) {
         for (FieldTypeEnum distance : FieldTypeEnum.values()) {
             if (Objects.equals(distance.code, id)) {

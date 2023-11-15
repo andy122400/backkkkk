@@ -2,6 +2,7 @@ package com.accton.newframework.core.application.config;
 
 import com.accton.newframework.core.application.common.CommonResult;
 import com.accton.newframework.utility.ApiException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -38,8 +39,8 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseBody
-    @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public Object missParam(MissingServletRequestParameterException e) {
+    @ExceptionHandler(value ={ MissingServletRequestParameterException.class, HttpMessageNotReadableException.class })
+    public Object missParam(Exception e) {
         return CommonResult.failed(e.getMessage());
     }
 

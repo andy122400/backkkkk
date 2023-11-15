@@ -1,5 +1,7 @@
 package com.accton.newframework.utility.contants;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Objects;
 
 public enum CriteriaEnum {
@@ -17,6 +19,7 @@ public enum CriteriaEnum {
         this.code = code;
     }
 
+    @JsonCreator
     public static CriteriaEnum forId(String id) {
         for (CriteriaEnum distance : CriteriaEnum.values()) {
             if (Objects.equals(distance.code, id)) {

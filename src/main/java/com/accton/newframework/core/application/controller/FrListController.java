@@ -2,12 +2,11 @@ package com.accton.newframework.core.application.controller;
 
 import com.accton.newframework.core.application.common.CommonResult;
 import com.accton.newframework.core.application.dto.request.FrListAddRequest;
+import com.accton.newframework.core.application.dto.request.FrListGetRequest;
 import com.accton.newframework.core.application.dto.response.FrListResponse;
 import com.accton.newframework.core.domain.frlist.FrListService;
 import com.accton.newframework.core.domain.frlist.event.FrListAdd;
 import com.accton.newframework.core.domain.frlist.event.FrListGet;
-import com.accton.newframework.utility.contants.CriteriaEnum;
-import com.accton.newframework.utility.contants.FieldTypeEnum;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,11 +22,9 @@ public class FrListController {
         this.frListService = frListService;
     }
 
-    @GetMapping("/list")
-    public CommonResult<List<FrListResponse>> get(@RequestParam("match_if") CriteriaEnum matchIf,
-                                                  @RequestParam("field_type")  FieldTypeEnum fieldType,
-                                                  @RequestParam("content") String content) {
-        FrListGet event = new FrListGet(matchIf,fieldType,content,false);
+    @PostMapping("/list")
+    public CommonResult<List<FrListResponse>> get(@RequestBody @Valid FrListGetRequest request) throws Exception {
+        FrListGet event = new FrListGet(request.getMatchIf(),request.getFieldType(),request.getContent(),false);
         return CommonResult.success(frListService.getByFilter(event));
     }
 
