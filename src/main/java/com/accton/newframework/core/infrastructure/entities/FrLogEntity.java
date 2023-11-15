@@ -21,22 +21,22 @@ public class FrLogEntity extends AbstractAuditingEntity {
     @Column(name = "fr_log_id")
     private Long id;
 
-    @Column(name = "unid", length = 50,nullable = false)
+    @Column(name = "unid", length = 250,nullable = false)
     private String unid;
 
-    @Column(name = "object_name", length = 80,nullable = false)
+    @Column(name = "object_name", length = 250,nullable = false)
     private String objectName;
 
     @Column(name = "detail_msg", columnDefinition = "nvarchar(4000)")
     private String detailMsg;
 
-    @Column(name = "msg", columnDefinition = "nvarchar(1000)")
+    @Column(name = "msg", columnDefinition = "nvarchar(4000)")
     private String msg;
 
     @Column(name = "error_msg", columnDefinition = "nvarchar(4000)")
     private String errorMsg;
 
-    @Column(name = "msg_type", columnDefinition = "nvarchar(2)",nullable = false)
+    @Column(name = "msg_type", length = 20,nullable = false)
     private String msgType;
 
     @Column(name = "start_date", columnDefinition = "datetime(3)",nullable = false)
@@ -50,13 +50,13 @@ public class FrLogEntity extends AbstractAuditingEntity {
     @Column(name = "person_uid",nullable = false)
     private Integer personUid;
 
-    @Column(name = "user_logon", length = 50,nullable = false)
+    @Column(name = "user_logon", length = 250,nullable = false)
     private String userLogon;
 
-    @Column(name = "client_ip", length = 50)
+    @Column(name = "client_ip", length = 20)
     private String clientIp;
 
-    @Column(name = "host_name", length = 50)
+    @Column(name = "host_name", length = 20)
     private String hostName;
 
 }

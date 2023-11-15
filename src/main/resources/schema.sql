@@ -52,19 +52,20 @@ create table fr_log
     state_void  smallint default 0            not null,
     update_by   varchar(50)                   null,
     update_date datetime(3)                   null,
+    client_ip   varchar(20)                   null,
     detail_msg  varchar(4000) charset utf8mb3 null,
     end_date    datetime(3)                   not null,
     error_msg   varchar(4000) charset utf8mb3 null,
-    host_name   varchar(50)                   null,
-    msg         varchar(1000) charset utf8mb3 null,
-    msg_type    varchar(2) charset utf8mb3    not null,
-    object_name varchar(80)                   not null,
+    host_name   varchar(20)                   null,
+    msg         varchar(4000) charset utf8mb3 null,
+    msg_type    varchar(20)                   not null,
+    object_name varchar(250)                  not null,
     person_uid  int                           not null,
-    client_ip   varchar(50)                   null,
     start_date  datetime(3)                   not null,
-    unid        varchar(50)                   not null,
-    user_logon  varchar(50)                   not null
+    unid        varchar(250)                  not null,
+    user_logon  varchar(250)                  not null
 );
+
 DROP TABLE IF EXISTS fr_list_detail;
 DROP TABLE IF EXISTS fr_list;
 

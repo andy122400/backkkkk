@@ -25,6 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/list1")
+    @FrLoggable
     public Object get1() throws Exception{
         throw new Exception("Demo2");
     }
