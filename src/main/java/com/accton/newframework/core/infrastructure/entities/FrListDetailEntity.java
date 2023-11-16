@@ -1,15 +1,13 @@
 package com.accton.newframework.core.infrastructure.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "fr_list_detail")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

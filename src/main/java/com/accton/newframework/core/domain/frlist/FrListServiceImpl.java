@@ -4,6 +4,7 @@ package com.accton.newframework.core.domain.frlist;
 import com.accton.newframework.core.application.dto.response.FrListDetailResponse;
 import com.accton.newframework.core.application.dto.response.FrListResponse;
 import com.accton.newframework.core.domain.frlist.event.FrListAdd;
+import com.accton.newframework.core.domain.frlist.event.FrListDetailAdd;
 import com.accton.newframework.core.domain.frlist.event.FrListGet;
 import com.accton.newframework.core.domain.frlist.model.FrListDetailModel;
 import com.accton.newframework.core.domain.frlist.model.FrListModel;
@@ -32,8 +33,8 @@ public class FrListServiceImpl implements FrListService {
     }
 
     @Override
-    public FrListResponse add(FrListAdd add) {
-        return FrListDomainMapper.toDto(repository.add(add));
+    public FrListResponse save(FrListAdd add) {
+        return FrListDomainMapper.toDto(repository.save(add));
     }
 
     @Override
@@ -41,6 +42,25 @@ public class FrListServiceImpl implements FrListService {
         List<FrListDetailModel> list = repository.detail(id);
         if (list != null) {
             return list.stream().map(FrListDomainMapper::toDto).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteFrList(Long id) {
+        repository.deleteFrList(id);
+    }
+
+    @Override
+    public void deleteFrListDetail(Long id) {
+        repository.deleteFrListDetail(id);
+    }
+
+    @Override
+    public FrListDetailResponse save(FrListDetailAdd add) {
+        FrListDetailModel model = repository.save(add);
+        if (model!=null){
+            return FrListDomainMapper.toDto(model);
         }
         return null;
     }

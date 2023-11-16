@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class FrListAdd {
+    private Long id;
     private String name;
 
     private String category;

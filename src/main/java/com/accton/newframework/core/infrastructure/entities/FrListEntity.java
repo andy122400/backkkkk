@@ -1,9 +1,6 @@
 package com.accton.newframework.core.infrastructure.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -12,6 +9,7 @@ import javax.validation.constraints.Min;
 @Entity
 @Table(name = "fr_list")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

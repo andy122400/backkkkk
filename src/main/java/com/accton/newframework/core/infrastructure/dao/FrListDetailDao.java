@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface FrListDetailDao extends JpaRepository<FrListDetailEntity,Long> {
 
-    List<FrListDetailEntity> findAllByParentId(Long id,Sort sort);
+    List<FrListDetailEntity> findAllByParentIdAndStateVoid(Long id,Integer stateVoid,Sort sort);
+    List<FrListDetailEntity> findAllByParentId(Long id);
 }
