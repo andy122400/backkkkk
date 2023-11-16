@@ -154,6 +154,7 @@ public class FrListRepositoryImpl implements FrListRepository {
                 entity.setName(add.getName());
                 entity.setValue(add.getValue());
                 entity.setSort(add.getSort());
+                entity.setParentEntry(add.getParentEntry());
                 entity.setDescription(add.getDescription());
                 entity.setStatus(add.getStatus());
                 entity = frListDetailDao.save(entity);

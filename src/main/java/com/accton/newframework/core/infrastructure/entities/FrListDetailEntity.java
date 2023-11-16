@@ -3,6 +3,8 @@ package com.accton.newframework.core.infrastructure.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "fr_list_detail")
@@ -37,6 +39,8 @@ public class FrListDetailEntity extends AbstractAuditingEntity {
     private String description;
 
     @Column(name = "status", columnDefinition = "smallint default 0",nullable = false)
+    @Min(0)
+    @Max(1)
     private Integer status;
 
 
