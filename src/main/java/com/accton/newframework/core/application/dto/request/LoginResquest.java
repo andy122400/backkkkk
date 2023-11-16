@@ -1,4 +1,4 @@
-package com.accton.newframework.core.application.dto;
+package com.accton.newframework.core.application.dto.request;
 
 import com.accton.newframework.utility.contants.CompanyEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Setter @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginDto {
+public class LoginResquest {
 
     @JsonProperty("user_name")
     @NotEmpty

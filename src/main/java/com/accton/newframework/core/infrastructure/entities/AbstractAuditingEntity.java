@@ -46,11 +46,6 @@ public class AbstractAuditingEntity implements Serializable {
     private void setInsert() {
         updateBy = null;
         updateDate = null;
-        createDate = new Date();
     }
 
-    @PreUpdate
-    private void setUpdate() {
-
-    }
 }

@@ -2,8 +2,8 @@ package com.accton.newframework.core.application.controller;
 
 
 import com.accton.newframework.core.application.common.CommonResult;
-import com.accton.newframework.core.application.dto.LoginDto;
-import com.accton.newframework.core.application.dto.LoginResponse;
+import com.accton.newframework.core.application.dto.request.LoginResquest;
+import com.accton.newframework.core.application.dto.response.LoginResponse;
 import com.accton.newframework.core.application.logging.FrLoggable;
 import com.accton.newframework.core.domain.identity.model.RoleModel;
 import com.accton.newframework.core.domain.identity.service.EncryptService;
@@ -30,7 +30,7 @@ public class AccountController {
 
     @FrLoggable
     @PostMapping("/login")
-    public Object login(@RequestBody @Valid LoginDto loginDto) {
+    public Object login(@RequestBody @Valid LoginResquest loginDto) {
         UserModel userModel = userService.findUser(loginDto.getUserName(),
                 AppUtils.decodeBase64(loginDto.getPassword()),
                 loginDto.getCompany());

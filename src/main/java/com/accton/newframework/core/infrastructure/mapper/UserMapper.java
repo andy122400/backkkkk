@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     public UserModel toDomainModel(UserEntity userEntity) {
+        if (userEntity==null) return null;
         return UserModel.builder()
                 .userId(userEntity.getId())
                 .userName(userEntity.getUserName())

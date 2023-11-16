@@ -67,9 +67,6 @@ public class LoggingAspect {
             }
         }
         if (exception != null) {
-            if (isFuncRoot(joinPoint)) {
-                throw new ApiException(exception.toString());
-            }
             throw exception;
         }
         return result;

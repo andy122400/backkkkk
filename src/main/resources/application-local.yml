@@ -41,10 +41,10 @@ ldap-config:
 
   ac:
     urls: ldap://hqldap.accton.com:389
-    base: OU=acctonvn,DC=acctonvn,DC=local
+    base: OU=Accton,DC=accton,DC=com,DC=tw
     username: agile_admin
     password: Raise$alary@ccton202311
 
 jwt:
   secret: heladslkasdaskdlasdjldasldaslkdasdlaskdalkdjlkasjldkjaslk
-  expiration: 1
+  expiration: 10

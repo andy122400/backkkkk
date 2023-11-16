@@ -7,7 +7,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class FrLogMapper {
 
-    public static FrLogEntity toDbModel(FrLogModel model){
+    public static FrLogEntity toDbModel(FrLogModel model) {
+        if (model == null) return null;
         return FrLogEntity.builder()
                 .unid(model.getUnId())
                 .objectName(model.getObjectName())

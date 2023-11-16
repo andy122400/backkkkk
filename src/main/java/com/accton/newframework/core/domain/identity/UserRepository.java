@@ -11,6 +11,7 @@ public interface UserRepository extends IRepository<UserModel,Long> {
 
     void update(UserModel user);
     UserModel getAccountInDbByUserName(String userName);
+    UserModel save(UserModel model);
 
     void addRoles(Set<RoleModel> roles);
 

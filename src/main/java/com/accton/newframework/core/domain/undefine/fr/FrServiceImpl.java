@@ -9,7 +9,7 @@ import com.accton.newframework.core.domain.undefine.fr.model.FrResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FrServiceImpl implements FrService {
+public class FrServiceImpl implements FrListService {
 
     
     /**

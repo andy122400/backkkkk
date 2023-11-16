@@ -1,4 +1,4 @@
-package com.accton.newframework.core.application.dto;
+package com.accton.newframework.core.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
