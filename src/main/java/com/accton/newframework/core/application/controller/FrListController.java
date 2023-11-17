@@ -6,6 +6,10 @@ import com.accton.newframework.core.application.dto.request.FrListDetailAddReque
 import com.accton.newframework.core.application.dto.request.FrListGetRequest;
 import com.accton.newframework.core.application.dto.response.FrListDetailResponse;
 import com.accton.newframework.core.application.dto.response.FrListResponse;
+import com.accton.newframework.core.application.dto.response.screen.Component;
+import com.accton.newframework.core.application.dto.response.screen.component.table.ColumnHeader;
+import com.accton.newframework.core.application.dto.response.screen.component.table.TableData;
+import com.accton.newframework.core.application.dto.response.screen.type.ComponentEnum;
 import com.accton.newframework.core.domain.frlist.FrListService;
 import com.accton.newframework.core.domain.frlist.event.FrListAdd;
 import com.accton.newframework.core.domain.frlist.event.FrListDetailAdd;
@@ -14,6 +18,7 @@ import com.accton.newframework.utility.ApiException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -27,10 +32,19 @@ public class FrListController {
     }
 
     @PostMapping("/list")
-    public CommonResult<List<FrListResponse>> get(@RequestBody @Valid FrListGetRequest request) throws Exception {
+    public CommonResult<Object> get(@RequestBody @Valid FrListGetRequest request) throws Exception {
         FrListGet event = new FrListGet(request.getMatchIf(),request.getFieldType(),request.getContent(),false);
-        return CommonResult.success(frListService.getByFilter(event));
+        return CommonResult.success(new TableData<>(
+                Arrays.asList(
+                        new ColumnHeader("id", "ID"),
+                        new ColumnHeader("name", "Name"),
+                        new ColumnHeader("description", "Description"),
+                        new ColumnHeader("status", "Status")
+                ),
+                frListService.getByFilter(event)
+        ));
     }
+
 
     @PostMapping("/add")
     public CommonResult<FrListResponse> add(@RequestBody @Valid FrListAddRequest request){

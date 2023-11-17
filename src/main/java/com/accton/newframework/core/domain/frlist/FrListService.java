@@ -9,7 +9,10 @@ import com.accton.newframework.core.domain.frlist.event.FrListGet;
 import java.util.List;
 
 public interface FrListService {
+
+
     List<FrListResponse> getByFilter(FrListGet filter);
+    FrListResponse getById(Long id);
     FrListResponse save(FrListAdd add);
     List<FrListDetailResponse> detail(Long id);
     void deleteFrList(Long id);

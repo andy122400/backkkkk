@@ -33,6 +33,13 @@ public class FrListServiceImpl implements FrListService {
     }
 
     @Override
+    public FrListResponse getById(Long id) {
+        return FrListDomainMapper.toDto(
+                repository.getById(id)
+        );
+    }
+
+    @Override
     public FrListResponse save(FrListAdd add) {
         return FrListDomainMapper.toDto(repository.save(add));
     }
