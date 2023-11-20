@@ -36,12 +36,10 @@ public class FrListRepositoryImpl implements FrListRepository {
     }
 
     public FrListModel save(FrListModel model) {
-        frListDao.save(FrListInfrastructureMapper.toDbModel(model));
         return model;
     }
 
     public void saveAll(List<FrListModel> models) {
-        frListDao.saveAll(models.stream().map(FrListInfrastructureMapper::toDbModel).collect(Collectors.toList()));
     }
 
     @Override
